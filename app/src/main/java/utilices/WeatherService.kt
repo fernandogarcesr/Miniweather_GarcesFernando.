@@ -47,6 +47,10 @@ class WeatherService(private val context: Context) {
         return Weather(temp, weatherStates[weatherIndex])
     }
 
+    fun getWeather(city: String): Weather{
+        return generateWeather()
+    }
+
     fun getWeatherIcon(weatherDescription: String): Int {
         val index = weatherStates.indexOf(weatherDescription)
         return if (index != -1) weatherIcons[index] else R.drawable.ic_sunny

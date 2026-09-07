@@ -6,4 +6,7 @@
     <string name="rainy">Lluvioso</string>
     <string name="cloudy">Nublado</string>
     <string name="sunny">Soleado</string>
+    <string name="good_morning">¡Buenas dias</string>
+    <string name="good_afternoon">¡Buenas tardes!</string>
+    <string name="good_evening">¡Buenas noches!</string>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import utilices.WeatherService
 
@@ -20,6 +21,7 @@ class CityActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        WindowCompat.getInsetsController(window,window.decorView).isAppearanceLightStatusBars = false
         setContentView(R.layout.activity_city)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -62,11 +64,8 @@ class CityActivity : AppCompatActivity() {
     val buttonNext = findViewById<Button>(R.id.btn_save_city)
 
 buttonNext.setOnClickListener{
-    val weather = service.generateWeather()
     val intent = Intent(this, MainActivity::class.java)
     intent.putExtra("city", citySelected)
-    intent.putExtra("temperature", weather.temperature)
-    intent.putExtra("weather", weather.weather)
     startActivity(intent)
 }
 

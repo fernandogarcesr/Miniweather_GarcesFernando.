@@ -7,14 +7,25 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.TextView
 import android.widget.ImageView
+import androidx.core.view.WindowCompat
 import utilices.WeatherService
+import java.time.LocalTime
 
 class MainActivity : AppCompatActivity() {
+    /**
+     * para que al minimizar la app y volverla a abrir se actualice el mensaje se tiene que poner
+     * ese codigo dentro de la funcion onResume que es la que se ejecuta al minimizar y abrir.
+     * el tvGreeting se tuvo que cambiar a propiedad de la clase para que setGreeting pueda usarlo
+     * desde fuera en el onCreate
+     */
+    private lateinit var tvGreeting: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
+
         setContentView(R.layout.activity_main)
-        val tvGreeting = findViewById<TextView>(R.id.tvGreeting)
+        tvGreeting = findViewById<TextView>(R.id.tvGreeting)
         val tvCity = findViewById<TextView>(R.id.tvCity)
         val ivWeather = findViewById<ImageView>(R.id.ivWeather)
         val tvTemperature = findViewById<TextView>(R.id.tvTemperature)
@@ -26,14 +37,29 @@ class MainActivity : AppCompatActivity() {
 
         }
         val city = intent.getStringExtra("city") ?: "Ciudad Obregon"
-        val temperature = intent.getIntExtra("temperature", 24)
         val service = WeatherService(this)
-        val weatherDescription = intent.getStringExtra("weather") ?: getString(R.string.sunny)
+        val weather = service.getWeather(city)
+        val time = LocalTime.now().hour
 
-        tvGreeting.text = "Buenos días"
+        setGreeting()
+
         tvCity.text = city
-        tvTemperature.text = "$temperature°"
-        tvWeather.text = weatherDescription
-        ivWeather.setImageResource(service.getWeatherIcon(weatherDescription))
+        tvTemperature.text = "${weather.temperature}°"
+        tvWeather.text = weather.weather
+        ivWeather.setImageResource(service.getWeatherIcon(weather.weather))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setGreeting()
+    }
+
+    private fun setGreeting() {
+        val time = LocalTime.now().hour
+        tvGreeting.text = when (time) {
+            in 5..11 -> getString(R.string.good_morning)
+            in 12..19 -> getString(R.string.good_afternoon)
+            else -> getString(R.string.good_evening)
+        }
     }
 }
