@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Miniweather_GarcesF</string>
+    <string name="snowy">Nevado</string>
+    <string name="windy">Ventoso</string>
+    <string name="stormy">Tormentoso</string>
+    <string name="rainy">Lluvioso</string>
+    <string name="cloudy">Nublado</string>
+    <string name="sunny">Soleado</string>
+</resources>
